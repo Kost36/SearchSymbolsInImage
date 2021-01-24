@@ -49,10 +49,10 @@ def Val5(val):
 
 #Трекбары
 cv.createTrackbar('imageNumb', title_window, 0, 4, Val3)
-cv.createTrackbar('adaptiveThresholdParam', title_window , 51, 100, Val1)
-cv.createTrackbar('adaptiveThresholdKernel', title_window , 23, 100, Val2)
-cv.createTrackbar('iterationsErode', title_window , 1, 10, Val4)
-cv.createTrackbar('iterationsDialate', title_window , 0, 10, Val5)
+#cv.createTrackbar('adaptiveThresholdParam', title_window , 51, 100, Val1)
+#cv.createTrackbar('adaptiveThresholdKernel', title_window , 23, 100, Val2)
+#cv.createTrackbar('iterationsErode', title_window , 1, 10, Val4)
+#cv.createTrackbar('iterationsDialate', title_window , 0, 10, Val5)
 
 #Точка
 class Point(object):
