@@ -4,7 +4,7 @@ import pathlib as pathlib
 
 # Параметры
 title_window = 'My Window' #Окно
-numbImg = 0 #Номер Image
+numbImg = 3 #Номер Image
 alpha_slider_max = 100 #Макс значение для слайдера
 adaptiveThresholdParam = 51 #Порог вычитаемый из среднего или взвешенного значения в зоне
 adaptiveThresholdSize = 23 #Размер окрестности
@@ -49,10 +49,10 @@ def Val5(val):
 
 #Трекбары
 cv.createTrackbar('imageNumb', title_window, 0, 4, Val3)
-# cv.createTrackbar('adaptiveThresholdParam', title_window , 51, 100, Val1)
-# cv.createTrackbar('adaptiveThresholdKernel', title_window , 23, 100, Val2)
-# cv.createTrackbar('iterationsErode', title_window , 1, 10, Val4)
-# cv.createTrackbar('iterationsDialate', title_window , 0, 10, Val5)
+cv.createTrackbar('adaptiveThresholdParam', title_window , 51, 100, Val1)
+cv.createTrackbar('adaptiveThresholdKernel', title_window , 23, 100, Val2)
+cv.createTrackbar('iterationsErode', title_window , 1, 10, Val4)
+cv.createTrackbar('iterationsDialate', title_window , 0, 10, Val5)
 
 #Точка
 class Point(object):
@@ -133,7 +133,6 @@ def SearchSymbolsInLine(imageMorfology, points, startLineY, endLineY):  # Пои
         if (dist < minWidth): #Если прямоугольники находятся слишком близко
             nextbit = True #Пропустить след прямоугольник
             pass
-
         #Добавление существующей точки/Добавление новой точки(которая между двумя близко расположенными)
         if (dist < minWidth): #Если прямоугольники находятся слишком близко
             newX = int((pointsOut[i + 1].x + pointsOut[i].x) * 0.5) #Берем середину между ними по X
@@ -174,7 +173,7 @@ def SearchSymbolsInLine(imageMorfology, points, startLineY, endLineY):  # Пои
 #Предобработка, извлечение строк с символами, отрисовка
 def Start():
     imageIn = cv.imread(filePath + numbImg.__str__() + ".jpg", cv.IMREAD_COLOR) #Грузим img
-    #cv.imshow(title_window, image)
+    #cv.imshow(title_window, imageIn)
     #btn = cv.waitKey(0)
 
     imageGray = cv.cvtColor(imageIn, cv.COLOR_BGR2GRAY) #Перевод Gray (интенсивность яркости)
@@ -207,7 +206,7 @@ def Start():
     for contor in contours: #Пробежка по контурам
         (x, y), radiusIn = cv.minEnclosingCircle(contor) #Получаем взвешенный центр, радиус контура
         radius = int(radiusIn) #Радиус к инту
-        if radius > 8 and radius < 33: #Фильтруем слишком большие и маленькие контуры
+        if radius > 9 and radius < 33: #Фильтруем слишком большие и маленькие контуры
             pointNew = Point(x, y, radius) #Создадим точку
             points.append(pointNew) #Добавим точку в список
             pointX.append(x) #Добавим в список X
@@ -276,3 +275,14 @@ def SearchBlobs(imageIn):
 
 Start() #Запускаем приложение
 cv.waitKey()
+
+# Тест отрисовка
+#    pointsOut.sort(key=lambda Point: Point.x) #Сортируем по X
+#    for point in pointsOut:
+#        cv.rectangle(imageMorfology,
+#                     (int(point.x - averWidth * 0.5), int(point.y - averHeigh * 0.5)),
+#                     (int(point.x + averWidth * 0.5), int(point.y + averHeigh * 0.5)),
+#                     (0, 0, 255), 1)
+#    cv.imshow("Test", imageMorfology)
+#    print(len(pointsOut))
+#    btn = cv.waitKey(0)
